@@ -1,56 +1,11 @@
-/* Modifikasi scrollbar filter chips horizontal */
-.no-scrollbar::-webkit-scrollbar {
-    display: none;
+:root {
+  --abu-gelap: #374151;
+  --abu-medium: #6b7280;
+  --abu-terang: #f3f4f6;
+  --accent-orange: #f97316;
 }
-.no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
-/* Animasi Buka Modal Pop-up */
-.scale-up-animation {
-    animation: scaleUp 0.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-@keyframes scaleUp {
-    from { transform: scale(0.95); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
-
-/* Proteksi klik mobile device */
-button, input, div, select {
-    -webkit-tap-highlight-color: transparent;
-}
-
-/* Sistem transisi transparan SPA */
-.app-page {
-    transition: opacity 0.15s ease-in-out;
-}
-
-/* Pengaturan Cetak Struk Kasir */
-@media print {
-    body * {
-        visibility: hidden;
-    }
-    #receipt-modal, #receipt-modal * {
-        visibility: visible;
-    }
-    #receipt-modal {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        background-color: white !important;
-        padding: 0;
-        margin: 0;
-    }
-    #receipt-modal .shadow-2xl, 
-    #receipt-modal .scale-up-animation {
-        box-shadow: none !important;
-        transform: none !important;
-        animation: none !important;
-    }
-    .no-print {
-        display: none !important;
-    }
-}
+body{background:var(--abu-terang)}
+.scale-up-animation { animation: scaleUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+@keyframes scaleUp { from { transform: scale(0.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+button, input { -webkit-tap-highlight-color: transparent; }
+.app-page { transition: opacity 0.15s ease-in-out; }

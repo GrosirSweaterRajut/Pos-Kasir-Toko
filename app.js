@@ -8,7 +8,6 @@ if ('serviceWorker' in navigator) {
 
 let products = JSON.parse(localStorage.getItem('pos_products')) || [];
 let transactions = JSON.parse(localStorage.getItem('pos_transactions')) || [];
-// Default Kategori jika memori masih kosong
 let categories = JSON.parse(localStorage.getItem('pos_categories')) || ["Rajut", "Aksesoris", "Umum"];
 let cart = [];
 let currentProductTab = 'aktif';
@@ -54,7 +53,6 @@ function renderCategories() {
         `;
     });
     
-    // Update dropdown menu kategori di form modal tambah barang
     const selectDropdown = document.getElementById('prod-category');
     if (selectDropdown) {
         selectDropdown.innerHTML = '<option value="" disabled selected>Pilih Kategori</option>';
@@ -213,6 +211,17 @@ function showReceipt(subtotal, tax, total) {
     document.getElementById('rec-time').innerText = new Date().toLocaleString('id-ID');
     document.getElementById('rec-footer').innerText = document.getElementById('inp-footer-toko').value || "Terima kasih atas kunjungan Anda!";
 
+    // Memuat Pratinjau Logo ke dalam Struk Belanjaan (Jika Ada)
+    const saved = JSON.parse(localStorage.getItem('pos_store_profile'));
+    const recLogoSpace = document.getElementById('rec-logo-space');
+    if (recLogoSpace) {
+        if (saved && saved.logo) {
+            recLogoSpace.innerHTML = `<img src="${saved.logo}" class="h-10 w-10 object-contain mb-1">`;
+        } else {
+            recLogoSpace.innerHTML = '';
+        }
+    }
+
     const itemsContainer = document.getElementById('rec-items');
     itemsContainer.innerHTML = '';
     
@@ -268,7 +277,7 @@ function renderProducts() {
         if (currentProductTab === 'aktif') {
             tombolAksi = `
                 <button onclick="toggleArsip(${p.id})" class="text-[11px] font-bold px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700 cursor-pointer">
-                    Arsipkan
+                    Arsirkan
                 </button>
             `;
         } else {
@@ -346,13 +355,13 @@ function syncStoreInfo() {
 }
 
 function saveStoreInfo() {
-    const storeProfile = {
-        nama: document.getElementById('inp-nama-toko').value,
-        alamat: document.getElementById('inp-alamat-toko').value,
-        pajak: document.getElementById('inp-pajak-toko').value,
-        kertas: document.getElementById('inp-kertas-toko').value,
-        footer: document.getElementById('inp-footer-toko').value
-    };
+    const storeProfile = JSON.parse(localStorage.getItem('pos_store_profile')) || {};
+    storeProfile.nama = document.getElementById('inp-nama-toko').value;
+    storeProfile.alamat = document.getElementById('inp-alamat-toko').value;
+    storeProfile.pajak = document.getElementById('inp-pajak-toko').value;
+    storeProfile.kertas = document.getElementById('inp-kertas-toko').value;
+    storeProfile.footer = document.getElementById('inp-footer-toko').value;
+    
     localStorage.setItem('pos_store_profile', JSON.stringify(storeProfile));
     alert('Informasi Toko disimpan!');
 }
@@ -366,14 +375,63 @@ function loadStoreInfo() {
             if (document.getElementById('inp-pajak-toko')) document.getElementById('inp-pajak-toko').value = saved.pajak || '10';
             if (document.getElementById('inp-kertas-toko')) document.getElementById('inp-kertas-toko').value = saved.kertas || '58mm';
             if (document.getElementById('inp-footer-toko')) document.getElementById('inp-footer-toko').value = saved.footer || 'Terima kasih atas kunjungan Anda!';
+            
+            if (saved.logo && document.getElementById('preview-logo-container')) {
+                document.getElementById('preview-logo-container').innerHTML = `<img src="${saved.logo}" class="w-full h-full object-cover rounded-xl" id="img-logo-toko" alt="Logo">`;
+            }
         } else {
-            // Pengisian fallback default awal agar form tidak kosong jika memori baru dibersihkan
             if (document.getElementById('inp-nama-toko')) document.getElementById('inp-nama-toko').value = 'GROSIR BAJU RAJUT';
             if (document.getElementById('inp-alamat-toko')) document.getElementById('inp-alamat-toko').value = 'jln inspeksi citarum';
             if (document.getElementById('inp-pajak-toko')) document.getElementById('inp-pajak-toko').value = '10';
         }
         syncStoreInfo();
     } catch (e) { console.error(e); }
+}
+
+// SISTEM SELEKTOR MULTIMEDIA UNTUK LOGO
+function triggerPilihLogo() {
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    
+    fileInput.onchange = e => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        if (file.size > 1024 * 1024) {
+            alert('Ukuran gambar terlalu besar! Harap pilih gambar di bawah 1 MB.');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = event => {
+            const base64Image = event.target.result;
+            const container = document.getElementById('preview-logo-container');
+            if (container) {
+                container.innerHTML = `<img src="${base64Image}" class="w-full h-full object-cover rounded-xl" id="img-logo-toko" alt="Logo">`;
+            }
+
+            const storeProfile = JSON.parse(localStorage.getItem('pos_store_profile')) || {};
+            storeProfile.logo = base64Image;
+            localStorage.setItem('pos_store_profile', JSON.stringify(storeProfile));
+        };
+        reader.readAsDataURL(file);
+    };
+    fileInput.click();
+}
+
+function hapusLogoToko() {
+    if (confirm('Apakah Anda yakin ingin menghapus logo toko?')) {
+        const container = document.getElementById('preview-logo-container');
+        if (container) {
+            container.innerHTML = `<span class="text-[10px] font-bold text-slate-400 tracking-wider">STORE</span>`;
+        }
+        
+        const storeProfile = JSON.parse(localStorage.getItem('pos_store_profile')) || {};
+        delete storeProfile.logo;
+        localStorage.setItem('pos_store_profile', JSON.stringify(storeProfile));
+        alert('Logo berhasil dihapus.');
+    }
 }
 
 window.addEventListener('DOMContentLoaded', () => {

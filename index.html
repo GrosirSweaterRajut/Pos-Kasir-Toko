@@ -8,36 +8,32 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="style.css">
 </head>
-<!-- Latar belakang diubah dari bg-slate-50 menjadi bg-slate-100 -->
-<body class="bg-slate-100 font-sans min-h-screen pb-24 text-slate-800 antialiased selection:bg-blue-100">
+<body class="bg-slate-50 font-sans min-h-screen pb-24 text-slate-800 antialiased">
 
-    <!-- DASHBOARD PAGE -->
     <section id="page-home" class="app-page max-w-md mx-auto p-4 space-y-5">
         <div class="flex justify-between items-center pt-2">
-            <!-- Judul diubah menjadi DASBOARD TOKO -->
             <h1 class="text-2xl font-black text-slate-900 tracking-tight">DASBOARD TOKO</h1>
             <div class="flex gap-2">
-                <button onclick="alert('Fitur Arsip Transaksi Global')" class="bg-slate-200/80 p-2 rounded-xl text-slate-600 cursor-pointer active:scale-95 transition-transform"><i data-lucide="archive" class="w-5 h-5"></i></button>
                 <button class="bg-white p-2 rounded-xl shadow-xs text-amber-400"><i data-lucide="star" class="w-5 h-5 fill-amber-400"></i></button>
             </div>
         </div>
 
-        <div class="bg-gradient-to-br from-blue-500 to-cyan-400 text-white p-5 rounded-3xl shadow-md relative overflow-hidden flex items-center gap-4">
+        <div class="bg-gradient-to-br from-gray-700 to-gray-500 text-white p-5 rounded-3xl shadow-md relative overflow-hidden flex items-center gap-4">
             <div class="bg-white/20 p-3 rounded-2xl backdrop-blur-md">
                 <i data-lucide="presentation" class="w-7 h-7 text-white"></i>
             </div>
             <div>
-                <p class="text-xs text-blue-100 font-medium">Selamat Datang,</p>
+                <p class="text-xs text-gray-200 font-medium">Selamat Datang,</p>
                 <h2 class="text-xl font-bold tracking-wide" id="dash-nama-toko">GROSIR BAJU RAJUT</h2>
             </div>
         </div>
 
         <div class="space-y-3">
             <h3 class="font-bold text-slate-900 text-base px-1">Ringkasan Bisnis</h3>
-            <div class="bg-gradient-to-r from-teal-600 to-emerald-500 text-white p-5 rounded-3xl shadow-xs relative overflow-hidden">
+            <div class="bg-gradient-to-r from-gray-600 to-emerald-500 text-white p-5 rounded-3xl shadow-xs">
                 <div class="flex items-center gap-2 mb-1.5">
-                    <span class="bg-white/20 text-white text-[11px] w-5 h-5 rounded-full flex items-center justify-center font-bold">Rp</span>
-                    <span class="text-xs font-medium text-teal-100">Omset Hari Ini</span>
+                    <span class="bg-white/20 text-white text-[11px] w-5 h-5 rounded-full flex items-center justify-center font-bold">$</span>
+                    <span class="text-xs font-medium text-gray-100">Omset Hari Ini</span>
                 </div>
                 <h4 class="text-2xl font-black tracking-wide" id="dash-omset">Rp 0</h4>
             </div>
@@ -46,224 +42,99 @@
         <div class="space-y-3">
             <h3 class="font-bold text-slate-900 text-base px-1">Menu Cepat</h3>
             <div class="grid grid-cols-2 gap-3">
-                <div onclick="switchPage('penjualan')" class="bg-white p-4 rounded-3xl border border-slate-100 shadow-xs flex flex-col justify-between h-28 cursor-pointer active:scale-95 transition-transform">
-                    <div class="flex justify-between items-start">
-                        <span class="bg-indigo-50 text-indigo-600 p-2.5 rounded-2xl"><i data-lucide="receipt" class="w-5 h-5"></i></span>
-                        <i data-lucide="arrow-right" class="w-4 h-4 text-slate-300"></i>
-                    </div>
-                    <div>
-                        <p class="text-xs text-slate-400 font-medium">Transaksi</p>
-                        <p class="text-lg font-bold text-slate-800" id="dash-transaksi">0</p>
-                    </div>
+                <div onclick="switchPage('penjualan')" class="bg-white p-4 rounded-3xl border border-slate-100 shadow-xs flex flex-col justify-between h-28 cursor-pointer">
+                    <span class="bg-gray-100 text-gray-600 p-2.5 rounded-2xl w-fit"><i data-lucide="receipt" class="w-5 h-5"></i></span>
+                    <div><p class="text-xs text-slate-400">Transaksi</p><p class="text-lg font-bold" id="dash-transaksi">0</p></div>
                 </div>
-                <div onclick="switchPage('produk')" class="bg-white p-4 rounded-3xl border border-slate-100 shadow-xs flex flex-col justify-between h-28 cursor-pointer active:scale-95 transition-transform">
-                    <div class="flex justify-between items-start">
-                        <span class="bg-amber-50 text-amber-600 p-2.5 rounded-2xl"><i data-lucide="archive-restore" class="w-5 h-5"></i></span>
-                        <i data-lucide="arrow-right" class="w-4 h-4 text-slate-300"></i>
-                    </div>
-                    <div>
-                        <p class="text-xs text-slate-400 font-medium">Terjual</p>
-                        <p class="text-lg font-bold text-slate-800" id="dash-terjual">0</p>
-                    </div>
+                <div class="bg-white p-4 rounded-3xl border-slate-100 shadow-xs flex-col justify-between h-28">
+                    <span class="bg-amber-50 text-amber-600 p-2.5 rounded-2xl w-fit"><i data-lucide="archive-restore" class="w-5 h-5"></i></span>
+                    <div><p class="text-xs text-slate-400">Terjual</p><p class="text-lg font-bold" id="dash-terjual">0</p></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- KASIR / PENJUALAN PAGE -->
     <section id="page-penjualan" class="app-page max-w-md mx-auto p-4 space-y-4 hidden">
         <div class="flex justify-between items-center">
-            <h1 class="text-2xl font-black text-blue-600 tracking-tight">Penjualan</h1>
-            <button onclick="clearCart()" class="bg-red-50 text-red-600 px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1 cursor-pointer active:scale-95 transition-transform">
-                <i data-lucide="trash-2" class="w-4 h-4"></i> Reset
-            </button>
+            <h1 class="text-2xl font-black text-gray-700">Penjualan</h1>
+            <button onclick="clearCart()" class="bg-red-50 text-red-600 p-2 rounded-xl text-xs font-bold flex items-center gap-1"><i data-lucide="trash-2" class="w-4 h-4"></i> Reset</button>
         </div>
-
-        <div class="relative flex items-center bg-white rounded-xl px-3 border border-slate-200">
+        <div class="relative flex items-center bg-slate-100 rounded-xl px-3 border">
             <i data-lucide="user" class="w-4 h-4 text-slate-400 mr-2"></i>
             <input type="text" id="cart-customer" class="bg-transparent text-xs py-3 w-full focus:outline-none" placeholder="Nama Pelanggan / No Meja...">
         </div>
-
-        <div class="relative shadow-2xs">
+        <div class="relative">
             <i data-lucide="search" class="absolute left-3 top-3 text-slate-400 w-4 h-4"></i>
-            <input type="text" oninput="renderSaleProducts()" id="sale-search" class="w-full bg-white border border-slate-200 pl-9 pr-4 py-2.5 rounded-xl text-xs focus:outline-none focus:border-blue-500" placeholder="Cari produk kasir...">
+            <input type="text" oninput="renderSaleProducts()" id="sale-search" class="w-full bg-slate-100 border pl-9 pr-4 py-2.5 rounded-xl text-xs focus:outline-none" placeholder="Cari produk kasir...">
         </div>
-
         <div id="sale-product-list" class="space-y-2 max-h-60 overflow-y-auto pr-1"></div>
-
-        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs space-y-3">
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Keranjang Belanja</h3>
-            <div id="cart-items-container" class="space-y-2 divide-y divide-slate-100 max-h-40 overflow-y-auto">
-                <p class="text-xs text-slate-400 text-center py-4">Keranjang masih kosong.</p>
+        <div class="bg-white p-4 rounded-2xl border shadow-xs space-y-3">
+            <h3 class="text-xs font-bold uppercase text-slate-400">Keranjang Belanja</h3>
+            <div id="cart-items-container" class="space-y-2 divide-y max-h-40 overflow-y-auto"></div>
+            <div class="pt-2 border-t space-y-1 text-xs">
+                <div class="flex justify-between"><span>Subtotal:</span><span id="cart-subtotal">Rp 0</span></div>
+                <div class="flex justify-between"><span>Pajak:</span><span id="cart-tax">Rp 0</span></div>
+                <div class="flex justify-between font-black text-sm"><span>Total Bayar:</span><span id="cart-total">Rp 0</span></div>
             </div>
-            <div class="pt-2 border-t border-slate-200 space-y-1 text-xs">
-                <div class="flex justify-between text-slate-500"><span>Subtotal:</span><span id="cart-subtotal">Rp 0</span></div>
-                <div class="flex justify-between text-slate-500"><span>Pajak:</span><span id="cart-tax">Rp 0</span></div>
-                <div class="flex justify-between font-black text-slate-900 text-sm mt-1"><span>Total Bayar:</span><span id="cart-total">Rp 0</span></div>
-            </div>
-            <button onclick="checkoutTransaction()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl text-xs shadow-md mt-2 cursor-pointer active:scale-98 transition-all">Selesaikan & Cetak Struk</button>
+            <button onclick="checkoutTransaction()" class="w-full bg-gray-600 text-white font-bold py-3 rounded-xl text-xs shadow-md">Selesaikan & Cetak Struk</button>
         </div>
     </section>
 
-    <!-- MENU / LAPORAN PAGE -->
-    <section id="page-menu" class="app-page hidden">
-        <header class="bg-[#1e62b4] text-white px-4 py-4 sticky top-0 z-40 shadow-xs">
-            <h1 class="text-lg font-bold">Menu Laporan</h1>
-        </header>
-        <main class="max-w-md mx-auto p-4 space-y-3">
-            <div onclick="alert('Total Jenis Produk Terdaftar: ' + products.length)" class="bg-white p-4 rounded-2xl border border-slate-100 shadow-2xs flex justify-between items-center cursor-pointer active:scale-98 transition-all">
-                <div class="flex items-center gap-3">
-                    <span class="bg-blue-50 text-blue-600 p-2.5 rounded-xl"><i data-lucide="bar-chart-3" class="w-5 h-5"></i></span>
-                    <div><h4 class="text-sm font-bold text-slate-800">Cek Total Jenis Produk</h4></div>
-                </div>
-                <i data-lucide="chevron-right" class="w-4 h-4 text-blue-500"></i>
-            </div>
-            <div onclick="if(confirm('Reset semua riwayat penjualan hari ini?')){ transactions = []; localStorage.setItem('pos_transactions', '[]'); updateDashboardMetrics(); alert('Riwayat dibersihkan!'); }" class="bg-white p-4 rounded-2xl border border-slate-100 shadow-2xs flex justify-between items-center cursor-pointer text-red-600 active:scale-98 transition-all">
-                <div class="flex items-center gap-3">
-                    <span class="bg-red-50 text-red-600 p-2.5 rounded-xl"><i data-lucide="trash-2" class="w-5 h-5"></i></span>
-                    <div><h4 class="text-sm font-bold">Reset Semua Laporan Penjualan</h4></div>
-                </div>
-                <i data-lucide="chevron-right" class="w-4 h-4 text-red-400"></i>
-            </div>
-        </main>
-    </section>
-
-    <!-- PRODUCT MANAGEMENT PAGE -->
     <section id="page-produk" class="app-page hidden">
-        <header class="bg-[#1e62b4] text-white px-4 py-3.5 sticky top-0 z-40">
-            <h1 class="text-lg font-semibold tracking-wide">Data Produk</h1>
-        </header>
+        <header class="bg-gray-700 text-white px-4 py-3.5 sticky top-0 z-40"><h1 class="text-lg font-semibold">Data Produk</h1></header>
         <main class="max-w-md mx-auto p-4 space-y-4">
-            <div class="flex bg-gray-200/80 rounded-lg p-1 shadow-inner">
-                <button onclick="switchProductTab('aktif')" id="btn-tab-aktif" class="flex-1 py-2 text-center text-sm font-medium rounded-md bg-[#1e62b4] text-white transition-all cursor-pointer">Produk Aktif</button>
-                <button onclick="switchProductTab('arsip')" id="btn-tab-arsip" class="flex-1 py-2 text-center text-sm font-medium rounded-md text-gray-700 transition-all cursor-pointer">Diarsipkan</button>
+            <div class="flex bg-gray-200/80 rounded-lg p-1">
+                <button onclick="switchProductTab('aktif')" id="btn-tab-aktif" class="flex-1 py-2 text-center text-sm font-medium rounded-md bg-gray-700 text-white">Kategori Produk</button>
+                <button onclick="switchProductTab('arsip')" id="btn-tab-arsip" class="flex-1 py-2 text-center text-sm font-medium rounded-md text-gray-700">Arsip</button>
             </div>
-            <div class="relative shadow-2xs">
+            <div class="relative">
                 <i data-lucide="search" class="absolute left-3.5 top-3 text-gray-400 w-4 h-4"></i>
-                <input type="text" id="product-search" oninput="renderProducts()" class="w-full bg-white pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg text-xs placeholder:text-gray-400 focus:outline-none" placeholder="Cari produk terdaftar...">
+                <input type="text" id="product-search" oninput="renderProducts()" class="w-full bg-white pl-10 pr-4 py-2.5 border rounded-lg text-xs" placeholder="Cari produk terdaftar...">
             </div>
             <div id="product-container" class="space-y-2.5 pt-2"></div>
         </main>
-        <button onclick="openModal()" class="fixed bottom-20 right-5 bg-orange-500 hover:bg-orange-600 text-white p-4 rounded-full shadow-lg z-40 cursor-pointer active:scale-95 transition-transform"><i data-lucide="plus" class="w-6 h-6 stroke-[3]"></i></button>
+        <button onclick="openModal()" class="fixed bottom-20 right-5 bg-orange-500 text-white p-4 rounded-full shadow-lg z-40"><i data-lucide="plus" class="w-6 h-6 stroke-[3]"></i></button>
     </section>
 
-    <!-- STORE SETTINGS PAGE -->
     <section id="page-infotoko" class="app-page hidden">
-        <header class="bg-[#1e62b4] text-white px-4 py-3.5 sticky top-0 z-40">
-            <h1 class="text-lg font-semibold">Info Toko</h1>
-        </header>
+        <header class="bg-gray-700 text-white px-4 py-3.5 sticky top-0 z-40"><h1 class="text-lg font-semibold">Info Toko</h1></header>
         <main class="max-w-md mx-auto p-4 space-y-4">
-            <div class="bg-white p-5 rounded-3xl border border-slate-100 shadow-2xs flex items-center gap-4">
-                <div class="w-16 h-16 bg-slate-100 rounded-xl flex items-center justify-center text-center p-1 overflow-hidden border border-slate-200">
-                    <span id="logo-placeholder" class="text-[10px] font-bold text-slate-400">STORE</span>
-                    <img id="logo-img" class="w-full h-full object-contain hidden" alt="Logo Toko">
-                </div>
+            <div class="bg-white p-5 rounded-3xl border flex items-center gap-4">
+                <div class="w-16 h-16 bg-slate-100 rounded-xl flex items-center justify-center"><span id="logo-placeholder" class="text-[10px] font-bold text-slate-400">STORE</span><img id="logo-img" class="w-full h-full object-contain hidden"></div>
                 <div class="flex-1">
                     <h3 class="font-extrabold text-slate-900 text-base" id="lbl-nama-toko">GROSIR BAJU RAJUT</h3>
-                    <p class="text-xs text-slate-500 font-medium" id="lbl-alamat-toko">jln inspeksi citarum</p>
+                    <p class="text-xs text-slate-500" id="lbl-alamat-toko">jln inspeksi citarum</p>
                     <div class="flex gap-2 pt-2">
                         <input type="file" id="file-logo-input" accept="image/*" class="hidden" onchange="handleLogoUpload(event)">
-                        <button onclick="document.getElementById('file-logo-input').click()" class="bg-blue-50 text-blue-600 text-[11px] px-2.5 py-1.5 rounded-lg font-bold cursor-pointer active:scale-95 transition-transform">Pilih Logo</button>
-                        <button onclick="removeLogo()" class="bg-rose-50 text-rose-600 text-[11px] px-2.5 py-1.5 rounded-lg font-bold cursor-pointer active:scale-95 transition-transform">Hapus Logo</button>
+                        <button onclick="document.getElementById('file-logo-input').click()" class="bg-gray-100 text-gray-600 text-[11px] px-2.5 py-1.5 rounded-lg font-bold">Pilih Logo</button>
+                        <button onclick="removeLogo()" class="bg-rose-50 text-rose-600 text-[11px] px-2.5 py-1.5 rounded-lg font-bold">Hapus Logo</button>
                     </div>
                 </div>
             </div>
-
-            <div class="bg-white p-5 rounded-3xl border border-slate-100 shadow-2xs space-y-5">
-                <div class="relative border border-slate-300 rounded-xl p-3 bg-white">
-                    <label class="absolute -top-2.5 left-3 bg-white px-1 text-[11px] font-bold text-slate-500">Nama Toko</label>
-                    <input type="text" id="inp-nama-toko" oninput="syncStoreInfo()" class="w-full text-xs font-bold mt-1 text-slate-800 focus:outline-none" value="GROSIR BAJU RAJUT">
+            <div class="bg-white p-5 rounded-3xl border space-y-4">
+                <div class="relative border rounded-xl p-3"><label class="absolute -top-2.5 left-3 bg-white px-1 text-[11px] font-bold">Nama Toko</label><input type="text" id="inp-nama-toko" oninput="syncStoreInfo()" class="w-full text-xs font-bold mt-1 focus:outline-none"></div>
+                <div class="relative border rounded-xl p-3"><label class="absolute -top-2.5 left-3 bg-white px-1 text-[11px] font-bold">Alamat</label><input type="text" id="inp-alamat-toko" oninput="syncStoreInfo()" class="w-full text-xs mt-1 focus:outline-none"></div>
+                <div class="relative border rounded-xl p-3"><label class="absolute -top-2.5 left-3 bg-white px-1 text-[11px] font-bold">Nomor HP</label><input type="text" id="inp-hp-toko" oninput="syncStoreInfo()" class="w-full text-xs mt-1 focus:outline-none" placeholder="0888..."></div>
+                <div class="flex gap-3">
+                    <div class="relative border rounded-xl p-3 w-1/2"><label class="absolute -top-2.5 left-3 bg-white px-1 text-[11px] font-bold">Pajak %</label><input type="number" id="inp-pajak-toko" class="w-full text-xs font-bold mt-1 focus:outline-none" value="10"></div>
+                    <div class="relative border rounded-xl p-3 w-1/2"><label class="absolute -top-2.5 left-3 bg-white px-1 text-[11px] font-bold">Ukuran Kertas</label><select id="inp-kertas-toko" class="w-full text-xs font-bold mt-1 bg-transparent"><option value="58mm">58 mm</option><option value="80mm">80 mm</option></select></div>
                 </div>
-                <div class="relative border border-slate-300 rounded-xl p-3 bg-white">
-                    <label class="absolute -top-2.5 left-3 bg-white px-1 text-[11px] font-bold text-slate-500">Alamat</label>
-                    <input type="text" id="inp-alamat-toko" oninput="syncStoreInfo()" class="w-full text-xs mt-1 text-slate-800 focus:outline-none" value="jln inspeksi citarum">
-                </div>
-                <div class="relative border border-slate-300 rounded-xl p-3 bg-white">
-                    <label class="absolute -top-2.5 left-3 bg-white px-1 text-[11px] font-bold text-slate-500">Pajak Default</label>
-                    <div class="flex items-center mt-1">
-                        <span class="text-xs font-bold text-slate-500 mr-2">%</span>
-                        <input type="number" id="inp-pajak-toko" class="w-full text-xs font-bold text-slate-800 focus:outline-none" value="10">
-                    </div>
-                </div>
-                <div class="relative border border-slate-300 rounded-xl p-3 bg-white">
-                    <label class="absolute -top-2.5 left-3 bg-white px-1 text-[11px] font-bold text-slate-500">Ukuran Kertas</label>
-                    <select id="inp-kertas-toko" class="w-full text-xs font-bold mt-1 text-slate-800 focus:outline-none bg-transparent">
-                        <option value="58mm">58 mm</option>
-                        <option value="80mm">80 mm</option>
-                    </select>
-                </div>
-                <!-- Input Baru: Kustomisasi Footer Struk -->
-                <div class="relative border border-slate-300 rounded-xl p-3 bg-white">
-                    <label class="absolute -top-2.5 left-3 bg-white px-1 text-[11px] font-bold text-slate-500">Footer Struk (Pesan Bawah)</label>
-                    <input type="text" id="inp-footer-toko" class="w-full text-xs mt-1 text-slate-800 focus:outline-none" value="Terima kasih atas kunjungan Anda!">
-                </div>
-                <button onclick="saveStoreInfo()" class="w-full bg-blue-600 text-white font-bold text-xs py-3.5 rounded-xl shadow-xs cursor-pointer active:scale-98 transition-transform">Simpan Info Toko</button>
+                <div class="relative border rounded-xl p-3"><label class="absolute -top-2.5 left-3 bg-white px-1 text-[11px] font-bold">Footer Struk (opsional)</label><textarea id="inp-footer-toko" oninput="syncStoreInfo()" rows="2" class="w-full text-xs mt-1 focus:outline-none" placeholder="Terima kasih atas kunjungan Anda!"></textarea></div>
+                <button onclick="saveStoreInfo()" class="w-full bg-gray-600 text-white font-bold text-xs py-3.5 rounded-xl">Simpan Info Toko</button>
             </div>
         </main>
     </section>
 
-    <!-- BOTTOM NAVIGATION -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-lg px-2 py-1 flex justify-around items-center z-40 max-w-md mx-auto">
-        <button onclick="switchPage('home')" id="nav-home" class="flex flex-col items-center p-1 text-blue-600 font-bold bg-blue-50/70 px-4 py-1.5 rounded-xl transition-all cursor-pointer">
-            <i data-lucide="home" class="w-5 h-5"></i><span class="text-[9px] mt-0.5">Home</span>
-        </button>
-        <button onclick="switchPage('penjualan')" id="nav-nav-penjualan" class="flex flex-col items-center p-1 text-slate-400 cursor-pointer">
-            <i data-lucide="calculator" class="w-5 h-5"></i><span class="text-[9px] mt-0.5">Penjualan</span>
-        </button>
-        <button onclick="switchPage('menu')" id="nav-menu" class="flex flex-col items-center p-1 text-slate-400 cursor-pointer">
-            <i data-lucide="menu" class="w-5 h-5"></i><span class="text-[9px] mt-0.5">Menu</span>
-        </button>
-        <button onclick="switchPage('produk')" id="nav-produk" class="flex flex-col items-center p-1 text-slate-400 cursor-pointer">
-            <i data-lucide="package" class="w-5 h-5"></i><span class="text-[9px] mt-0.5">Produk</span>
-        </button>
-        <button onclick="switchPage('infotoko')" id="nav-infotoko" class="flex flex-col items-center p-1 text-slate-400 cursor-pointer">
-            <i data-lucide="store" class="w-5 h-5"></i><span class="text-[9px] mt-0.5">Info Toko</span>
-        </button>
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg px-2 py-1 flex justify-around items-center z-40 max-w-md mx-auto">
+        <button onclick="switchPage('home')" id="nav-home" class="flex flex-col items-center p-1 text-gray-700 font-bold bg-gray-100 px-4 py-1.5 rounded-xl"><i data-lucide="home" class="w-5 h-5"></i><span class="text-[9px]">Home</span></button>
+        <button onclick="switchPage('penjualan')" id="nav-penjualan" class="flex flex-col items-center p-1 text-slate-400"><i data-lucide="calculator" class="w-5 h-5"></i><span class="text-[9px]">Kasir</span></button>
+        <button onclick="switchPage('produk')" id="nav-produk" class="flex flex-col items-center p-1 text-slate-400"><i data-lucide="package" class="w-5 h-5"></i><span class="text-[9px]">Produk</span></button>
+        <button onclick="switchPage('infotoko')" id="nav-infotoko" class="flex flex-col items-center p-1 text-slate-400"><i data-lucide="store" class="w-5 h-5"></i><span class="text-[9px]">Info Toko</span></button>
     </nav>
 
-    <!-- MODAL INVENTOR / ADD PRODUCT -->
-    <div id="product-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-6 hidden backdrop-blur-xs">
-        <div class="bg-white rounded-3xl w-full max-w-xs p-6 shadow-2xl scale-up-animation">
-            <h3 class="text-lg font-extrabold text-center mb-4 text-slate-900">Tambah Produk</h3>
-            <form id="product-form" onsubmit="saveProduct(event)" class="space-y-4">
-                <input type="text" id="prod-name" required class="w-full border border-slate-300 rounded-xl p-2.5 text-xs focus:outline-none focus:border-blue-500" placeholder="Nama Produk">
-                <input type="number" id="prod-price" required class="w-full border border-slate-300 rounded-xl p-2.5 text-xs focus:outline-none focus:border-blue-500" placeholder="Harga Jual">
-                <input type="number" id="prod-stock" required class="w-full border border-slate-300 rounded-xl p-2.5 text-xs focus:outline-none focus:border-blue-500" placeholder="Jumlah Stok">
-                <div class="flex gap-2 pt-2">
-                    <button type="submit" class="flex-1 bg-blue-500 text-white font-bold py-2 rounded-xl text-xs cursor-pointer active:scale-95 transition-transform">Simpan</button>
-                    <button type="button" onclick="closeModal()" class="flex-1 border border-slate-300 text-slate-600 py-2 rounded-xl text-xs cursor-pointer active:scale-95 transition-transform">Batal</button>
-                </div>
-            </form>
-        </div>
-    </div>
+    <div id="product-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-6 hidden"><div class="bg-white rounded-3xl w-full max-w-xs p-6 scale-up-animation"><h3 class="text-lg font-extrabold text-center mb-4">Tambah Produk</h3><form id="product-form" onsubmit="saveProduct(event)" class="space-y-4"><input type="text" id="prod-name" required class="w-full border rounded-xl p-2.5 text-xs" placeholder="Nama Produk"><input type="number" id="prod-price" required class="w-full border rounded-xl p-2.5 text-xs" placeholder="Harga Jual"><input type="number" id="prod-stock" required class="w-full border rounded-xl p-2.5 text-xs" placeholder="Jumlah Stok"><div class="flex gap-2"><button type="submit" class="flex-1 bg-gray-600 text-white font-bold py-2 rounded-xl text-xs">Simpan</button><button type="button" onclick="closeModal()" class="flex-1 border py-2 rounded-xl text-xs">Batal</button></div></form></div></div>
 
-    <!-- MODAL STRUK / RECEIPT VIEW -->
-    <div id="receipt-modal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-6 hidden backdrop-blur-xs">
-        <div class="bg-white text-black font-mono p-5 rounded-lg w-full max-w-xs shadow-2xl text-xs space-y-3 scale-up-animation">
-            <div class="text-center border-b border-dashed border-slate-400 pb-2">
-                <h3 class="font-bold text-sm" id="rec-store-name">GROSIR BAJU RAJUT</h3>
-                <p id="rec-store-address" class="text-[10px]">jln inspeksi citarum</p>
-            </div>
-            <div class="text-[10px] space-y-0.5 border-b border-dashed border-slate-300 pb-2">
-                <p>Pelanggan : <span id="rec-customer">Umum</span></p>
-                <p>Waktu     : <span id="rec-time"></span></p>
-            </div>
-            <div class="border-b border-dashed border-slate-400 pb-2 space-y-2 text-[11px]" id="rec-items"></div>
-            <div class="space-y-0.5 text-right border-b border-dashed border-slate-300 pb-2">
-                <div class="flex justify-between"><span>Subtotal:</span><span id="rec-subtotal">0</span></div>
-                <div class="flex justify-between"><span>Pajak:</span><span id="rec-tax">0</span></div>
-                <div class="flex justify-between font-bold text-sm mt-1"><span>Total:</span><span id="rec-total">0</span></div>
-            </div>
-            <!-- Bagian ini akan diisi teks footer kustom dari LocalStorage -->
-            <div class="text-center py-1 text-[9px] text-slate-500 whitespace-pre-wrap" id="rec-footer">
-                Terima kasih atas kunjungan Anda!
-            </div>
-            <div class="flex gap-2 pt-2 no-print">
-                <button onclick="window.print()" class="flex-1 bg-slate-900 text-white font-bold py-2 rounded-md text-[11px] cursor-pointer active:scale-95 transition-transform">Cetak</button>
-                <button onclick="document.getElementById('receipt-modal').classList.add('hidden')" class="flex-1 border border-slate-300 font-bold py-2 rounded-md text-[11px] text-slate-700 cursor-pointer active:scale-95 transition-transform">Tutup</button>
-            </div>
-        </div>
-    </div>
+    <div id="receipt-modal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-6 hidden"><div class="bg-white text-black font-mono p-5 rounded-lg w-full max-w-xs shadow-2xl text-xs space-y-3 scale-up-animation"><div class="text-center border-b border-dashed pb-2"><h3 class="font-bold text-sm" id="rec-store-name">GROSIR BAJU RAJUT</h3><p id="rec-store-address" class="text-[10px]">jln inspeksi citarum</p></div><div class="text-[10px] space-y-0.5"><p>Pelanggan: <span id="rec-customer">Umum</span></p><p>Waktu: <span id="rec-time"></span></p></div><div class="border-b border-dashed pb-2 space-y-1 text-[11px]" id="rec-items"></div><div class="text-right space-y-0.5 font-bold"><p>Subtotal: <span id="rec-subtotal">0</span></p><p>Pajak: <span id="rec-tax">0</span></p><p class="text-sm">Total Bayar: <span id="rec-total">0</span></p></div><div class="text-center pt-2 border-t border-dashed text-[9px] text-slate-500" id="rec-footer">Terima kasih!</div><div class="flex gap-2 pt-2"><button onclick="window.print()" class="flex-1 bg-slate-900 text-white font-bold py-2 rounded-md text-[11px]">Cetak</button><button onclick="document.getElementById('receipt-modal').classList.add('hidden')" class="flex-1 border font-bold py-2 rounded-md text-[11px]">Tutup</button></div></div></div>
 
     <script src="app.js"></script>
 </body>

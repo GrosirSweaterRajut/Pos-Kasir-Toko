@@ -8,6 +8,8 @@ if ('serviceWorker' in navigator) {
 
 let products = JSON.parse(localStorage.getItem('pos_products')) || [];
 let transactions = JSON.parse(localStorage.getItem('pos_transactions')) || [];
+// Default Kategori jika memori masih kosong
+let categories = JSON.parse(localStorage.getItem('pos_categories')) || ["Rajut", "Aksesoris", "Umum"];
 let cart = [];
 let currentProductTab = 'aktif';
 
@@ -32,6 +34,55 @@ function switchPage(pageId) {
     if (pageId === 'home') updateDashboardMetrics();
     if (pageId === 'penjualan') { renderSaleProducts(); updateCartUI(); }
     if (pageId === 'produk') renderProducts();
+    if (pageId === 'infotoko') { loadStoreInfo(); renderCategories(); }
+}
+
+// MANAJEMEN KATEGORI
+function renderCategories() {
+    const container = document.getElementById('category-list-container');
+    if (!container) return;
+    container.innerHTML = '';
+
+    categories.forEach((cat, index) => {
+        container.innerHTML += `
+            <div class="flex justify-between items-center bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs">
+                <span class="font-semibold text-slate-700">${cat}</span>
+                <button onclick="deleteCategory(${index})" class="text-rose-600 p-1 hover:bg-rose-50 rounded-lg transition-colors">
+                    <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                </button>
+            </div>
+        `;
+    });
+    
+    // Update dropdown menu kategori di form modal tambah barang
+    const selectDropdown = document.getElementById('prod-category');
+    if (selectDropdown) {
+        selectDropdown.innerHTML = '<option value="" disabled selected>Pilih Kategori</option>';
+        categories.forEach(cat => {
+            selectDropdown.innerHTML += `<option value="${cat}">${cat}</option>`;
+        });
+    }
+    try { lucide.createIcons(); } catch(e){}
+}
+
+function addCategory() {
+    const input = document.getElementById('new-category-input');
+    const value = input.value.trim();
+    if (!value) return alert('Nama kategori tidak boleh kosong!');
+    if (categories.includes(value)) return alert('Kategori sudah ada!');
+
+    categories.push(value);
+    localStorage.setItem('pos_categories', JSON.stringify(categories));
+    input.value = '';
+    renderCategories();
+}
+
+function deleteCategory(index) {
+    if (confirm(`Hapus kategori "${categories[index]}"?`)) {
+        categories.splice(index, 1);
+        localStorage.setItem('pos_categories', JSON.stringify(categories));
+        renderCategories();
+    }
 }
 
 function renderSaleProducts() {
@@ -50,8 +101,11 @@ function renderSaleProducts() {
         list.innerHTML += `
             <div class="bg-white p-3 rounded-xl border border-slate-200 flex justify-between items-center shadow-2xs">
                 <div>
-                    <h4 class="text-xs font-bold text-slate-800">${p.name}</h4>
-                    <p class="text-[11px] text-slate-500">Rp ${p.price.toLocaleString('id-ID')} • Stok: ${p.stock}</p>
+                    <div class="flex items-center gap-1.5">
+                        <h4 class="text-xs font-bold text-slate-800">${p.name}</h4>
+                        <span class="bg-blue-50 text-blue-600 text-[8px] px-1 rounded font-medium">${p.category || 'Umum'}</span>
+                    </div>
+                    <p class="text-[11px] text-slate-500 mt-0.5">Rp ${p.price.toLocaleString('id-ID')} • Stok: ${p.stock}</p>
                 </div>
                 <button onclick="addToCart(${p.id})" class="bg-blue-600 text-white text-xs px-3 py-1.5 rounded-lg font-bold cursor-pointer active:scale-95 transition-transform">+ Pilih</button>
             </div>
@@ -177,16 +231,17 @@ function showReceipt(subtotal, tax, total) {
     document.getElementById('receipt-modal').classList.remove('hidden');
 }
 
-function openModal() { document.getElementById('product-modal').classList.remove('hidden'); }
+function openModal() { renderCategories(); document.getElementById('product-modal').classList.remove('hidden'); }
 function closeModal() { document.getElementById('product-modal').classList.add('hidden'); document.getElementById('product-form').reset(); }
 
 function saveProduct(e) {
     e.preventDefault();
     const name = document.getElementById('prod-name').value;
+    const category = document.getElementById('prod-category').value;
     const price = parseInt(document.getElementById('prod-price').value);
     const stock = parseInt(document.getElementById('prod-stock').value);
 
-    products.push({ id: Date.now(), name, price, stock, archived: false });
+    products.push({ id: Date.now(), name, category, price, stock, archived: false });
     localStorage.setItem('pos_products', JSON.stringify(products));
     closeModal();
     renderProducts();
@@ -209,15 +264,36 @@ function renderProducts() {
     }
 
     filtered.forEach(p => {
+        let tombolAksi = '';
+        if (currentProductTab === 'aktif') {
+            tombolAksi = `
+                <button onclick="toggleArsip(${p.id})" class="text-[11px] font-bold px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700 cursor-pointer">
+                    Arsipkan
+                </button>
+            `;
+        } else {
+            tombolAksi = `
+                <div class="flex gap-1.5">
+                    <button onclick="toggleArsip(${p.id})" class="text-[11px] font-bold px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700 cursor-pointer">
+                        Aktifkan
+                    </button>
+                    <button onclick="hapusProdukPermanen(${p.id})" class="text-[11px] font-bold px-2.5 py-1.5 rounded-lg bg-red-50 text-red-600 border border-red-100 cursor-pointer">
+                        Hapus
+                    </button>
+                </div>
+            `;
+        }
+
         container.innerHTML += `
             <div class="bg-white p-3.5 rounded-2xl border border-slate-200 shadow-2xs flex justify-between items-center">
                 <div>
-                    <h4 class="text-xs font-bold text-slate-800">${p.name}</h4>
-                    <p class="text-[11px] text-slate-500">Harga: Rp ${p.price.toLocaleString('id-ID')} | Stok: ${p.stock}</p>
+                    <div class="flex items-center gap-2">
+                        <h4 class="text-xs font-bold text-slate-800">${p.name}</h4>
+                        <span class="bg-slate-100 text-slate-500 text-[9px] px-1.5 py-0.5 rounded-md font-medium">${p.category || 'Umum'}</span>
+                    </div>
+                    <p class="text-[11px] text-slate-500 mt-0.5">Harga: Rp ${p.price.toLocaleString('id-ID')} | Stok: ${p.stock}</p>
                 </div>
-                <button onclick="toggleArsip(${p.id})" class="text-[11px] font-bold px-2.5 py-1.5 rounded-lg border border-slate-200 cursor-pointer">
-                    ${currentProductTab === 'aktif' ? 'Arsipkan' : 'Aktifkan'}
-                </button>
+                ${tombolAksi}
             </div>
         `;
     });
@@ -228,6 +304,14 @@ function toggleArsip(id) {
     if(p) p.archived = !p.archived;
     localStorage.setItem('pos_products', JSON.stringify(products));
     renderProducts();
+}
+
+function hapusProdukPermanen(id) {
+    if (confirm('Apakah Anda yakin ingin menghapus produk ini secara permanen?')) {
+        products = products.filter(p => p.id !== id);
+        localStorage.setItem('pos_products', JSON.stringify(products));
+        renderProducts();
+    }
 }
 
 function switchProductTab(tab) {
@@ -277,18 +361,23 @@ function loadStoreInfo() {
     try {
         const saved = JSON.parse(localStorage.getItem('pos_store_profile'));
         if (saved) {
-            if (document.getElementById('inp-nama-toko')) document.getElementById('inp-nama-toko').value = saved.nama || '';
-            if (document.getElementById('inp-alamat-toko')) document.getElementById('inp-alamat-toko').value = saved.alamat || '';
+            if (document.getElementById('inp-nama-toko')) document.getElementById('inp-nama-toko').value = saved.nama || 'GROSIR BAJU RAJUT';
+            if (document.getElementById('inp-alamat-toko')) document.getElementById('inp-alamat-toko').value = saved.alamat || 'jln inspeksi citarum';
             if (document.getElementById('inp-pajak-toko')) document.getElementById('inp-pajak-toko').value = saved.pajak || '10';
             if (document.getElementById('inp-kertas-toko')) document.getElementById('inp-kertas-toko').value = saved.kertas || '58mm';
             if (document.getElementById('inp-footer-toko')) document.getElementById('inp-footer-toko').value = saved.footer || 'Terima kasih atas kunjungan Anda!';
-            syncStoreInfo();
+        } else {
+            // Pengisian fallback default awal agar form tidak kosong jika memori baru dibersihkan
+            if (document.getElementById('inp-nama-toko')) document.getElementById('inp-nama-toko').value = 'GROSIR BAJU RAJUT';
+            if (document.getElementById('inp-alamat-toko')) document.getElementById('inp-alamat-toko').value = 'jln inspeksi citarum';
+            if (document.getElementById('inp-pajak-toko')) document.getElementById('inp-pajak-toko').value = '10';
         }
+        syncStoreInfo();
     } catch (e) { console.error(e); }
 }
 
 window.addEventListener('DOMContentLoaded', () => {
     loadStoreInfo();
     updateDashboardMetrics();
-    try { lucide.createIcons(); } catch(e){}
+    renderCategories();
 });

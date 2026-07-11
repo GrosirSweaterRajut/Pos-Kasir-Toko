@@ -1,3 +1,10 @@
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(reg => console.log('PWA Service Worker terdaftar!', reg))
+      .catch(err => console.log('PWA Gagal didaftarkan:', err));
+  });
+}
 let products = JSON.parse(localStorage.getItem('pos_products')) || [];
 let cart = [];
 let transactions = JSON.parse(localStorage.getItem('pos_transactions')) || [];

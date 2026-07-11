@@ -1,0 +1,29 @@
+‎/* Modifikasi scrollbar filter chips horizontal */
+‎.no-scrollbar::-webkit-scrollbar {
+‎    display: none;
+‎}
+‎.no-scrollbar {
+‎    -ms-overflow-style: none;
+‎    scrollbar-width: none;
+‎}
+‎
+‎/* Animasi Buka Modal Pop-up */
+‎.scale-up-animation {
+‎    animation: scaleUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+‎}
+‎
+‎@keyframes scaleUp {
+‎    from { transform: scale(0.92); opacity: 0; }
+‎    to { transform: scale(1); opacity: 1; }
+‎}
+‎
+‎/* Proteksi klik mobile device */
+‎button, input, div {
+‎    -webkit-tap-highlight-color: transparent;
+‎}
+‎
+‎/* Sistem transisi transparan SPA */
+‎.app-page {
+‎    transition: opacity 0.15s ease-in-out;
+‎}
+‎

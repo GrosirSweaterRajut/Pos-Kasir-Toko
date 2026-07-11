@@ -4,7 +4,7 @@ const ASSETS = [
   'style.css',
   'app.js',
   'manifest.json',
-  'icon.jpg',
+  'IMG-20260711-WA2490.jpg',
   'https://cdn.tailwindcss.com',
   'https://unpkg.com/lucide@0.400.0/dist/umd/lucide.min.js'
 ];

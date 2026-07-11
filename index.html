@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kasir Offline - GROSIR BAJU RAJUT</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 font-sans min-h-screen pb-24 text-slate-800 antialiased selection:bg-blue-100">
+
+    <section id="page-home" class="app-page max-w-md mx-auto p-4 space-y-5">
+        <div class="flex justify-between items-center pt-2">
+            <h1 class="text-2xl font-black text-slate-900 tracking-tight">Dashboard</h1>
+            <div class="flex gap-2">
+                <button class="bg-slate-200/80 p-2 rounded-xl text-slate-600"><i data-lucide="archive" class="w-5 h-5"></i></button>
+                <button class="bg-white p-2 rounded-xl shadow-xs text-amber-400"><i data-lucide="star" class="w-5 h-5 fill-amber-400"></i></button>
+            </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-blue-500 to-cyan-400 text-white p-5 rounded-3xl shadow-md relative overflow-hidden flex items-center gap-4">
+            <div class="bg-white/20 p-3 rounded-2xl backdrop-blur-md">
+                <i data-lucide="presentation" class="w-7 h-7 text-white"></i>
+            </div>
+            <div>
+                <p class="text-xs text-blue-100 font-medium">Selamat Datang,</p>
+                <h2 class="text-xl font-bold tracking-wide">Dashboard Owner</h2>
+            </div>
+            <div class="absolute -right-6 -bottom-6 w-24 h-24 bg-white/5 rounded-full blur-xl"></div>
+        </div>
+
+        <div class="space-y-3">
+            <h3 class="font-bold text-slate-900 text-base px-1">Ringkasan Bisnis</h3>
+            <div class="bg-gradient-to-r from-teal-600 to-emerald-500 text-white p-5 rounded-3xl shadow-xs relative overflow-hidden">
+                <div class="flex items-center gap-2 mb-1.5">
+                    <span class="bg-white/20 text-white text-[11px] w-5 h-5 rounded-full flex items-center justify-center font-bold">$</span>
+                    <span class="text-xs font-medium text-teal-100">Omset Hari Ini</span>
+                </div>
+                <h4 class="text-2xl font-black tracking-wide" id="dash-omset">Rp 0</h4>
+                <div class="w-full h-[1px] bg-white/20 mt-4"></div>
+                <span class="absolute right-4 bottom-2 text-7xl font-bold opacity-10 pointer-events-none">$</span>
+            </div>
+        </div>
+
+        <div class="space-y-3">
+            <h3 class="font-bold text-slate-900 text-base px-1">Menu Cepat</h3>
+            <div class="grid grid-cols-2 gap-3">
+                <div onclick="switchPage('penjualan')" class="bg-white p-4 rounded-3xl border border-slate-100 shadow-xs flex flex-col justify-between h-28 cursor-pointer active:scale-98 transition-transform">
+                    <div class="flex justify-between items-start">
+                        <span class="bg-indigo-50 text-indigo-600 p-2.5 rounded-2xl"><i data-lucide="receipt" class="w-5 h-5"></i></span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 text-slate-300"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-medium">Transaksi</p>
+                        <p class="text-lg font-bold text-slate-800" id="dash-transaksi">0</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-3xl border border-slate-100 shadow-xs flex flex-col justify-between h-28">
+                    <div class="flex justify-between items-start">
+                        <span class="bg-amber-50 text-amber-600 p-2.5 rounded-2xl"><i data-lucide="archive-restore" class="w-5 h-5"></i></span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 text-slate-300"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-medium">Terjual</p>
+                        <p class="text-lg font-bold text-slate-800" id="dash-terjual">0</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-3xl border border-slate-100 shadow-xs flex flex-col justify-between h-28">
+                    <div class="flex justify-between items-start">
+                        <span class="bg-rose-50 text-rose-500 p-2.5 rounded-2xl"><i data-lucide="users-2" class="w-5 h-5"></i></span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 text-slate-300"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-medium">Hutang</p>
+                        <p class="text-base font-bold text-slate-800">Rp 0</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-3xl border border-slate-100 shadow-xs flex flex-col justify-between h-28">
+                    <div class="flex justify-between items-start">
+                        <span class="bg-emerald-50 text-emerald-600 p-2.5 rounded-2xl"><i data-lucide="arrow-up-right-square" class="w-5 h-5"></i></span>
+                        <i data-lucide="arrow-right" class="w-4 h-4 text-slate-300"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-medium">Biaya</p>
+                        <p class="text-base font-bold text-slate-800">Rp 0</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-3xl border border-slate-100 shadow-xs flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <span class="bg-sky-50 text-sky-600 p-3 rounded-2xl"><i data-lucide="wallet" class="w-5 h-5"></i></span>
+                <div>
+                    <p class="text-xs text-slate-400 font-medium">Saldo Kas Hari Ini</p>
+                    <p class="text-base font-bold text-slate-800">Rp 0</p>
+                </div>
+            </div>
+            <i data-lucide="arrow-right" class="w-4 h-4 text-slate-300"></i>
+        </div>
+
+        <div class="bg-blue-50/70 rounded-2xl p-4 flex gap-3 items-start border border-blue-100/50">
+            <span class="bg-white text-blue-500 p-2 rounded-full shadow-xs"><i data-lucide="lightbulb" class="w-4 h-4"></i></span>
+            <p class="text-xs text-slate-600 leading-relaxed font-medium">Pantau arus kas secara berkala untuk menjaga kesehatan finansial bisnis Anda.</p>
+        </div>
+    </section>
+
+    <section id="page-penjualan" class="app-page max-w-md mx-auto p-4 space-y-4 hidden">
+        <div class="flex justify-between items-center">
+            <h1 class="text-2xl font-black text-blue-600 tracking-tight">Penjualan</h1>
+            <div class="flex gap-2">
+                <button class="bg-slate-100 p-2 rounded-xl text-slate-500"><i data-lucide="history" class="w-5 h-5"></i></button>
+                <button class="bg-slate-100 p-2 rounded-xl text-slate-500"><i data-lucide="receipt" class="w-5 h-5"></i></button>
+                <button class="bg-slate-100 p-2 rounded-xl text-slate-500"><i data-lucide="printer" class="w-5 h-5"></i></button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-3">
+            <div class="col-span-2 relative flex items-center bg-slate-100 rounded-xl px-3 border border-slate-200">
+                <i data-lucide="user" class="w-4 h-4 text-slate-400 mr-2"></i>
+                <input type="text" class="bg-transparent text-xs py-3 w-full focus:outline-none" placeholder="Nama / No...">
+                <i data-lucide="qr-code" class="w-4 h-4 text-blue-500 cursor-pointer"></i>
+            </div>
+            <div class="bg-amber-50/50 border border-amber-200 p-2 rounded-xl text-center">
+                <span class="text-[9px] uppercase font-bold text-amber-700 block tracking-wider">Piutang</span>
+                <span class="text-xs font-extrabold text-amber-800">Rp 0</span>
+            </div>
+        </div>
+
+        <div class="flex gap-2">
+            <div class="relative flex-1 shadow-2xs">
+                <i data-lucide="search" class="absolute left-3 top-3 text-slate-400 w-4 h-4"></i>
+                <input type="text" oninput="searchSaleProduct()" id="sale-search" class="w-full bg-slate-100 border border-slate-200 pl-9 pr-4 py-2.5 rounded-xl text-xs focus:outline-none focus:border-blue-500" placeholder="Cari produk...">
+            </div>
+            <button class="bg-blue-500 text-white p-2.5 rounded-xl shadow-xs"><i data-lucide="qr-code" class="w-5 h-5"></i></button>
+        </div>
+
+        <div class="flex justify-between items-center gap-2">
+            <div class="flex gap-2 text-xs">
+                <button class="bg-blue-600 text-white px-4 py-2 rounded-full font-bold">Semua</button>
+                <button class="bg-white border border-slate-200 text-slate-700 px-4 py-2 rounded-full font-medium flex items-center gap-1">
+                    <i data-lucide="triangle" class="w-3 h-3 text-slate-400 rotate-180"></i> Non Kategori
+                </button>
+            </div>
+            <button class="text-blue-600 p-1"><i data-lucide="list" class="w-5 h-5"></i></button>
+        </div>
+
+        <div id="sale-product-list" class="space-y-2">
+            </div>
+    </section>
+
+    <section id="page-menu" class="app-page hidden">
+        <header class="bg-[#1e62b4] text-white px-4 py-4 sticky top-0 z-40">
+            <h1 class="text-lg font-bold">Menu</h1>
+        </header>
+        <main class="max-w-md mx-auto p-4 space-y-3">
+            <p class="text-xs font-bold text-slate-900 tracking-wide mb-1 px-1">Daftar Menu</p>
+            
+            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-2xs flex justify-between items-center cursor-pointer">
+                <div class="flex items-center gap-3">
+                    <span class="bg-blue-50 text-blue-600 p-2.5 rounded-xl"><i data-lucide="store" class="w-5 h-5"></i></span>
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-800">Pantau Cabang</h4>
+                        <p class="text-[11px] text-slate-400 font-medium">Pantau aktifitas dan laporan cabang-cabang lain</p>
+                    </div>
+                </div>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-blue-500"></i>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-2xs flex justify-between items-center cursor-pointer">
+                <div class="flex items-center gap-3">
+                    <span class="bg-blue-50 text-blue-600 p-2.5 rounded-xl"><i data-lucide="history" class="w-5 h-5"></i></span>
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-800">Riwayat Penjualan</h4>
+                        <p class="text-[11px] text-slate-400 font-medium">Lihat daftar transaksi yang sudah terjadi</p>
+                    </div>
+                </div>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-blue-500"></i>
+            </div>
+
+            <div class="bg-slate-100/80 p-4 rounded-2xl border border-slate-200/60 flex justify-between items-center opacity-70">
+                <div class="flex items-center gap-3">
+                    <span class="bg-slate-200 text-slate-500 p-2.5 rounded-xl"><i data-lucide="users" class="w-5 h-5"></i></span>
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-700">Pelanggan</h4>
+                        <p class="text-[11px] text-amber-600 font-semibold">Tersedia di versi PRO</p>
+                    </div>
+                </div>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+            </div>
+
+            <div class="bg-slate-100/80 p-4 rounded-2xl border border-slate-200/60 flex justify-between items-center opacity-70">
+                <div class="flex items-center gap-3">
+                    <span class="bg-slate-200 text-slate-500 p-2.5 rounded-xl"><i data-lucide="truck" class="w-5 h-5"></i></span>
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-700">Pemasok</h4>
+                        <p class="text-[11px] text-amber-600 font-semibold">Tersedia di versi PRO</p>
+                    </div>
+                </div>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-slate-400"></i>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-2xs flex justify-between items-center cursor-pointer">
+                <div class="flex items-center gap-3">
+                    <span class="bg-blue-50 text-blue-600 p-2.5 rounded-xl"><i data-lucide="layers" class="w-5 h-5"></i></span>
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-800">Kategori Produk</h4>
+                        <p class="text-[11px] text-slate-400 font-medium">Kelola kategori untuk organisasi produk</p>
+                    </div>
+                </div>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-blue-500"></i>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-2xs flex justify-between items-center cursor-pointer">
+                <div class="flex items-center gap-3">
+                    <span class="bg-blue-50 text-blue-600 p-2.5 rounded-xl"><i data-lucide="qr-code" class="w-5 h-5"></i></span>
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-800">Cetak Label Barcode</h4>
+                        <p class="text-[11px] text-slate-400 font-medium">Cetak barcode & harga produk untuk ditempel</p>
+                    </div>
+                </div>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-blue-500"></i>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-2xs flex justify-between items-center cursor-pointer">
+                <div class="flex items-center gap-3">
+                    <span class="bg-blue-50 text-blue-600 p-2.5 rounded-xl"><i data-lucide="contact-2" class="w-5 h-5"></i></span>
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-800">Pekerja & Salesman</h4>
+                        <p class="text-[11px] text-slate-400 font-medium">Kelola data karyawan & komisi</p>
+                    </div>
+                </div>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-blue-500"></i>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-2xs flex justify-between items-center cursor-pointer">
+                <div class="flex items-center gap-3">
+                    <span class="bg-blue-50 text-blue-600 p-2.5 rounded-xl"><i data-lucide="bar-chart-3" class="w-5 h-5"></i></span>
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-800">Laporan</h4>
+                        <p class="text-[11px] text-slate-400 font-medium">Omset, produk terlaris, pelanggan terbanyak</p>
+                    </div>
+                </div>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-blue-500"></i>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-2xs flex justify-between items-center cursor-pointer">
+                <div class="flex items-center gap-3">
+                    <span class="bg-blue-50 text-blue-600 p-2.5 rounded-xl"><i data-lucide="shield-check" class="w-5 h-5"></i></span>
+                    <div>
+                        <h4 class="text-sm font-bold text-slate-800">Pengaturan Permission Role</h4>
+                        <p class="text-[11px] text-slate-400 font-medium">Atur kewenangan untuk setiap role</p>
+                    </div>
+                </div>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-blue-500"></i>
+            </div>
+
+            <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-2xs flex justify-between items-center text-rose-600 cursor-pointer">
+                <div class="flex items-center gap-3">
+                    <span class="bg-rose-50 text-rose-600 p-2.5 rounded-xl"><i data-lucide="log-out" class="w-5 h-5"></i></span>
+                    <div>
+                        <h4 class="text-sm font-bold">Logout</h4>
+                        <p class="text-[11px] text-rose-400 font-medium">Keluar dari akun saat ini</p>
+                    </div>
+                </div>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-rose-400"></i>
+            </div>
+        </main>
+    </section>
+
+    <section id="page-produk" class="app-page hidden">
+        <header class="bg-[#1e62b4] text-white px-4 py-3.5 sticky top-0 z-40 flex justify-between items-center">
+            <h1 class="text-lg font-semibold tracking-wide">Data Produk</h1>
+            <button class="opacity-80"><i data-lucide="upload" class="w-5 h-5"></i></button>
+        </header>
+        <main class="max-w-md mx-auto p-4 space-y-4">
+            <div class="flex bg-gray-200/80 rounded-lg p-1 shadow-inner">
+                <button onclick="switchProductTab('aktif')" id="btn-tab-aktif" class="flex-1 py-2 text-center text-sm font-medium rounded-md bg-[#1e62b4] text-white transition-all cursor-pointer">Produk Aktif</button>
+                <button onclick="switchProductTab('arsip')" id="btn-tab-arsip" class="flex-1 py-2 text-center text-sm font-medium rounded-md text-gray-700 transition-all cursor-pointer">Diarsipkan</button>
+            </div>
+            <div class="relative shadow-2xs">
+                <i data-lucide="search" class="absolute left-3.5 top-3 text-gray-400 w-4 h-4"></i>
+                <input type="text" id="product-search" oninput="liveSearch()" class="w-full bg-white pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 text-xs placeholder:text-gray-400" placeholder="Cari nama / barcode...">
+            </div>
+            <div class="flex gap-2 overflow-x-auto pb-1 no-scrollbar text-xs">
+                <button onclick="setFilter('terbaru')" id="chip-terbaru" class="px-4 py-2 rounded-full font-medium bg-[#1e62b4] text-white whitespace-nowrap">Terbaru</button>
+                <button onclick="setFilter('az')" id="chip-az" class="px-4 py-2 rounded-full font-medium border border-blue-600 text-blue-700 bg-white whitespace-nowrap">A-Z</button>
+                <button onclick="setFilter('za')" id="chip-za" class="px-4 py-2 rounded-full font-medium border border-blue-600 text-blue-700 bg-white whitespace-nowrap">Z-A</button>
+                <button onclick="setFilter('termurah')" id="chip-termurah" class="px-4 py-2 rounded-full font-medium border border-blue-600 text-blue-700 bg-white whitespace-nowrap">Termurah</button>
+            </div>
+            <div class="flex gap-2 text-xs">
+                <button class="bg-blue-600 text-white px-4 py-1.5 rounded-lg font-bold flex items-center gap-1"><i data-lucide="grid" class="w-3 h-3"></i> Semua</button>
+                <button class="bg-gray-200 text-gray-700 px-4 py-1.5 rounded-lg font-medium flex items-center gap-1"><i data-lucide="triangle" class="w-3 h-3 rotate-180"></i> Non Kategori</button>
+            </div>
+            <div id="product-container" class="space-y-2.5 pt-2"></div>
+        </main>
+        <button onclick="openModal()" class="fixed bottom-20 right-5 bg-orange-500 hover:bg-orange-600 text-white p-4 rounded-full shadow-lg z-40">
+            <i data-lucide="plus" class="w-6 h-6 stroke-[3]"></i>
+        </button>
+    </section>
+
+    <section id="page-infotoko" class="app-page hidden">
+        <header class="bg-[#1e62b4] text-white px-4 py-3.5 sticky top-0 z-40 flex justify-between items-center">
+            <h1 class="text-lg font-semibold">Info Toko</h1>
+            <div class="flex gap-3">
+                <i data-lucide="settings" class="w-5 h-5 cursor-pointer"></i>
+                <i data-lucide="text-select" class="w-5 h-5 cursor-pointer"></i>
+            </div>
+        </header>
+        <main class="max-w-md mx-auto p-4 space-y-4">
+            <div class="bg-white p-5 rounded-3xl border border-slate-100 shadow-2xs flex items-center gap-4">
+                <div class="w-16 h-20 bg-slate-50 border border-dashed border-slate-300 rounded-lg flex items-center justify-center text-center p-1">
+                    <span class="text-[8px] font-mono text-slate-400 block font-bold">!DOCTYPE</span>
+                </div>
+                <div class="flex-1 space-y-2">
+                    <h3 class="font-extrabold text-slate-900 text-base" id="lbl-nama-toko">GROSIR BAJU RAJUT</h3>
+                    <p class="text-xs text-slate-500 font-medium" id="lbl-alamat-toko">jln inspeksi citarum</p>
+                    <div class="flex gap-2 pt-1">
+                        <button class="bg-blue-50 text-blue-600 text-xs px-3 py-1.5 rounded-lg font-bold">Pilih Logo</button>
+                        <button class="bg-rose-50 text-rose-600 text-xs px-3 py-1.5 rounded-lg font-bold">Hapus Logo</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-5 rounded-3xl border border-slate-100 shadow-2xs space-y-5">
+                <h4 class="text-xs font-bold text-slate-900 tracking-wide uppercase">Pengaturan Informasi Toko</h4>
+                
+                <div class="relative border border-blue-500 rounded-xl p-3 bg-white">
+                    <label class="absolute -top-2.5 left-3 bg-white px-1 text-[11px] font-bold text-blue-600">Nama Toko</label>
+                    <div class="flex items-center mt-1">
+                        <i data-lucide="store" class="w-4 h-4 text-slate-700 mr-2"></i>
+                        <input type="text" id="inp-nama-toko" oninput="syncStoreInfo()" class="w-full text-xs font-bold text-slate-800 focus:outline-none" value="GROSIR BAJU RAJUT">
+                    </div>
+                </div>
+
+                <div class="relative border border-slate-300 rounded-xl p-3 bg-white">
+                    <label class="absolute -top-2.5 left-3 bg-white px-1 text-[11px] font-bold text-slate-500">Alamat</label>
+                    <div class="flex items-center mt-1">
+                        <i data-lucide="map-pin" class="w-4 h-4 text-slate-700 mr-2"></i>
+                        <input type="text" id="inp-alamat-toko" oninput="syncStoreInfo()" class="w-full text-xs text-slate-800 focus:outline-none" value="jln inspeksi citarum">
+                    </div>
+                </div>
+
+                <div class="relative border border-slate-300 rounded-xl p-3 bg-white">
+                    <label class="absolute -top-2.5 left-3 bg-white px-1 text-[11px] font-bold text-slate-500">Nomor HP</label>
+                    <div class="flex items-center mt-1">
+                        <i data-lucide="phone" class="w-4 h-4 text-slate-700 mr-2"></i>
+                        <input type="text" id="inp-hp-toko" class="w-full text-xs text-slate-800 focus:outline-none" value="08886225629">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="relative border border-slate-300 rounded-xl p-3 bg-white">
+                        <label class="absolute -top-2.5 left-3 bg-white px-1 text-[11px] font-bold text-slate-500">Pajak Def...</label>
+                        <div class="flex items-center mt-1">
+                            <span class="text-xs text-slate-600 font-bold mr-2">%</span>
+                            <input type="number" class="w-full text-xs text-slate-800 focus:outline-none font-bold" value="10">
+                        </div>
+                    </div>
+                    <div class="relative border border-slate-300 rounded-xl p-3 bg-white flex justify-between items-center">
+                        <label class="absolute -top-2.5 left-3 bg-white px-1 text-[11px] font-bold text-slate-500">Ukuran Ker...</label>
+                        <div class="flex items-center mt-1">
+                            <i data-lucide="printer" class="w-4 h-4 text-slate-700 mr-2"></i>
+                            <span class="text-xs text-slate-800 font-bold">58 mm</span>
+                        </div>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400 mt-1"></i>
+                    </div>
+                </div>
+
+                <div class="relative border border-slate-300 rounded-xl p-3 bg-white">
+                    <div class="flex items-center">
+                        <i data-lucide="receipt" class="w-4 h-4 text-slate-700 mr-2"></i>
+                        <input type="text" class="w-full text-xs text-slate-400 focus:outline-none" placeholder="Footer Struk (opsional)">
+                    </div>
+                </div>
+
+                <div class="flex gap-3 pt-2">
+                    <button class="flex-1 bg-blue-500 text-white text-xs py-3 rounded-xl font-bold shadow-xs">Simpan Info Toko</button>
+                    <button class="flex-1 border border-slate-300 text-blue-600 text-xs py-3 rounded-xl font-bold">Backup & Restore</button>
+                </div>
+            </div>
+
+            <div class="bg-blue-50 p-4 rounded-2xl border border-blue-100 flex justify-between items-center cursor-pointer">
+                <div class="flex items-center gap-3">
+                    <span class="bg-blue-500 text-white p-2.5 rounded-xl shadow-xs"><i data-lucide="share-2" class="w-5 h-5"></i></span>
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-800">Bagikan Aplikasi</h4>
+                        <p class="text-[11px] text-slate-500">Rekomendasikan ke teman & keluarga</p>
+                    </div>
+                </div>
+                <i data-lucide="chevron-right" class="w-4 h-4 text-blue-500"></i>
+            </div>
+
+            <div class="bg-white p-5 rounded-3xl border border-slate-100 shadow-2xs flex justify-between items-center gap-4">
+                <div class="space-y-1">
+                    <h4 class="text-xs font-black text-slate-900 uppercase">Ingin Fitur Lebih?</h4>
+                    <p class="text-[10px] text-slate-500 leading-normal">Upgrade ke versi Pro untuk fitur harga bertingkat dan pencarian barcode.</p>
+                </div>
+                <button class="bg-blue-500 text-white text-xs px-4 py-2.5 rounded-xl font-bold whitespace-nowrap shadow-xs">Lihat Pro</button>
+            </div>
+        </main>
+    </section>
+
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200/80 shadow-lg px-2 py-1 flex justify-around items-center z-40 max-w-md mx-auto">
+        <button onclick="switchPage('home')" id="nav-home" class="flex flex-col items-center p-1 text-blue-600 font-bold bg-blue-50/70 px-4 py-1.5 rounded-xl transition-all">
+            <i data-lucide="home" class="w-5 h-5"></i>
+            <span class="text-[9px] mt-0.5">Home</span>
+        </button>
+        <button onclick="switchPage('penjualan')" id="nav-penjualan" class="flex flex-col items-center p-1 text-slate-400 hover:text-slate-700">
+            <i data-lucide="calculator" class="w-5 h-5"></i>
+            <span class="text-[9px] mt-0.5">Penjualan</span>
+        </button>
+        <button onclick="switchPage('menu')" id="nav-menu" class="flex flex-col items-center p-1 text-slate-400 hover:text-slate-700">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+            <span class="text-[9px] mt-0.5">Menu</span>
+        </button>
+        <button onclick="switchPage('produk')" id="nav-produk" class="flex flex-col items-center p-1 text-slate-400 hover:text-slate-700">
+            <i data-lucide="package" class="w-5 h-5"></i>
+            <span class="text-[9px] mt-0.5">Produk</span>
+        </button>
+        <button onclick="switchPage('infotoko')" id="nav-infotoko" class="flex flex-col items-center p-1 text-slate-400 hover:text-slate-700">
+            <i data-lucide="store" class="w-5 h-5"></i>
+            <span class="text-[9px] mt-0.5">Info Toko</span>
+        </button>
+    </nav>
+
+    <div id="product-modal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-6 hidden">
+        <div class="bg-white rounded-3xl w-full max-w-xs p-6 shadow-2xl scale-up-animation">
+            <h3 class="text-lg font-extrabold text-black text-center mb-5 tracking-wide">Tambah Produk</h3>
+            <form id="product-form" onsubmit="saveProduct(event)" class="space-y-4">
+                <div class="relative border border-slate-300 rounded-xl flex items-center px-3 bg-white focus-within:border-blue-500">
+                    <span class="text-base mr-2">📦</span>
+                    <input type="text" id="prod-name" required class="w-full py-2.5 text-xs text-slate-800 focus:outline-none" placeholder="Nama Produk *">
+                </div>
+                <div class="relative border border-slate-300 rounded-xl flex items-center px-3 bg-white focus-within:border-blue-500">
+                    <span class="text-base mr-2">💰</span>
+                    <input type="number" id="prod-price" required class="w-full py-2.5 text-xs text-slate-800 focus:outline-none" placeholder="Harga Jual *">
+                </div>
+                <div class="relative border border-slate-300 rounded-xl flex items-center px-3 bg-white focus-within:border-blue-500">
+                    <span class="text-base mr-2">📊</span>
+                    <input type="number" id="prod-stock" class="w-full py-2.5 text-xs text-slate-800 focus:outline-none" placeholder="Stok">
+                </div>
+                <div class="flex gap-3 pt-2">
+                    <button type="submit" class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2.5 rounded-xl font-bold shadow-xs text-xs">Simpan</button>
+                    <button type="button" onclick="closeModal()" class="flex-1 border border-blue-500 text-blue-500 hover:bg-blue-50 py-2.5 rounded-xl font-bold text-xs text-center">Batal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
